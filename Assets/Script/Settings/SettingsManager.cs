@@ -84,6 +84,7 @@ namespace YARG.Settings
             new MetadataTab("Sound", icon: "Sound")
             {
                 new HeaderMetadata("Volume"),
+                nameof(Settings.TransposeSemitones),
                 nameof(Settings.MasterMusicVolume),
                 nameof(Settings.GuitarVolume),
                 nameof(Settings.RhythmVolume),

@@ -60,7 +60,7 @@
             "TapsToHopos": "Taps to HOPOs",
             "UnpitchedOnly": "Unpitched Only",
             "NoDynamics": "No Dynamics",
-            "NoVocalPercussion" : "No Percussion",
+            "NoVocalPercussion": "No Percussion",
             "RangeCompress": "No Range Shifts"
         },
         "SortAttribute": {
@@ -101,7 +101,7 @@
             "Band": "Band",
             "Playcount": "Play Count"
         },
-        "StarPowerActivationType" : {
+        "StarPowerActivationType": {
             "Freestyle": "Freestyle",
             "RightmostLane": "Rightmost Lane",
             "RightmostNote": "Rightmost Note",
@@ -144,8 +144,8 @@
 
             "Reset": "Reset",
             "ResetAll": "Reset All",
-			
-			"Scroll" : "Scroll"
+
+            "Scroll": "Scroll"
         },
         "Credits": {
             "Description": "Contributed To: {0}\n\n{1}",
@@ -224,8 +224,8 @@
             "Ready": "Ready",
             "SitOut": "Sit Out",
             "Done": "Done",
-            "WarningPlayerNoInputDevice" : "This player has no input device assigned! Assign one from the Profiles menu.",
-            "WarningVocalistNoMicrophone" : "This vocalist has no microphone assigned! Assign one from the Profiles menu."
+            "WarningPlayerNoInputDevice": "This player has no input device assigned! Assign one from the Profiles menu.",
+            "WarningVocalistNoMicrophone": "This vocalist has no microphone assigned! Assign one from the Profiles menu."
         },
         "History": {
             "Name": "History",
@@ -334,16 +334,16 @@
         },
         "ProfileList": {
             "Name": "Profiles",
-            "ActiveProfiles" : "Active Profiles",
+            "ActiveProfiles": "Active Profiles",
             "AddBot": "Add Bot",
             "AddProfile": "Add Profile",
-            "Bots" : "Bots",
-            "Players" : "Players"
+            "Bots": "Bots",
+            "Players": "Players"
         },
-        "ScoreScreen" : {
-            "BandScoreNotSaved" : "(Score not saved)",
-            "RestartSong" : "Restart Song",
-            "EndSetlistEarly" : "End Setlist"
+        "ScoreScreen": {
+            "BandScoreNotSaved": "(Score not saved)",
+            "RestartSong": "Restart Song",
+            "EndSetlistEarly": "End Setlist"
         },
         "Settings": {
             "NoFolder": "<i>No Folder</i>",
@@ -377,7 +377,7 @@
                 "Nice": "<i>NICE</i>\nSOLO",
                 "Okay": "OKAY\nSOLO",
                 "Perfect": "PERFECT\nSOLO!",
-                "Solid":  "SOLID\nSOLO"
+                "Solid": "SOLID\nSOLO"
             },
             "PointsResult": "{0:N0}\nPOINTS"
         },
@@ -391,164 +391,164 @@
                 "Strong": "STRONG"
             }
         },
-		"Practice": {
-			"Sections": {
-				"intro": "Intro",
-				"intro_slow": "Intro slow",
-				"intro_fast": "Intro fast",
-				"intro_heavy": "Intro heavy",
-				"quiet_intro": "Quiet intro",
-				"noise_intro": "Noise intro",
-				"drum_intro": "Drum intro",
-				"bass_intro": "Bass intro",
-				"vocal_intro": "Vocal intro",
-				"gtr_intro": "Gtr intro",
-				"aco_gtr_intro": "Aco gtr intro",
-				"violin_intro": "Violin intro",
-				"strings_intro": "Strings intro",
-				"orch_intro": "Orch intro",
-				"horn_intro": "Horn intro",
-				"harmonica_intro": "Harmonica intro",
-				"organ_intro": "Organ intro",
-				"piano_intro": "Piano intro",
-				"keyboard_intro": "Keyboard intro",
-				"dj_intro": "DJ intro",
-				"intro_hook": "Intro hook",
-				"intro_riff": "Intro riff",
-				"fade_in": "Fade in",
-				"drums_enter": "Drums enter",
-				"bass_enters": "Bass enters",
-				"gtr_enters": "Gtr enters",
-				"rhy_enters": "Gtr2 enters",
-				"band_enters": "Band enters",
-				"synth_enters": "Synth enters",
-				"keyboard_enters": "Keyboard enters",
-				"organ_enters": "Organ enters",
-				"piano_enters": "Piano enters",
-				"kick_it": "Kick It!",
-				"intro_verse": "Intro verse",
-				"intro_chorus": "Intro chorus",
-				"verse": "Verse",
-				"alt_verse": "Alt verse",
-				"quiet_verse": "Quiet verse",
-				"preverse": "Pre-verse",
-				"postverse": "Post-verse",
-				"chorus": "Chorus",
-				"chorus_break": "Chorus break",
-				"breakdown_chorus": "Breakdown chorus",
-				"alt_chorus": "Alt chorus",
-				"prechorus": "Pre-chorus",
-				"postchorus": "Post-chorus",
-				"bridge": "Bridge",
-				"gtr_solo": "Gtr solo",
-				"slide_solo": "Slide solo",
-				"violin_solo": "Violin solo",
-				"drum_solo": "Drum solo",
-				"percussion_solo": "Percussion solo",
-				"bass_solo": "Bass solo",
-				"organ_solo": "Organ solo",
-				"piano_solo": "Piano solo",
-				"keyboard_solo": "Keyboard solo",
-				"synth_solo": "Synth solo",
-				"harmonica_solo": "Harmonica solo",
-				"sax_solo": "Sax solo",
-				"horn_solo": "Horn solo",
-				"flute_solo": "Flute solo",
-				"noise_solo": "Noise solo",
-				"noise_build": "Noise build",
-				"dj_solo": "DJ solo",
-				"slow_part": "Slow part",
-				"very_slow": "Very slow",
-				"fast_part": "Fast part",
-				"very_fast": "Very fast",
-				"quiet_part": "Quiet part",
-				"very_quiet": "Very quiet",
-				"loud_part": "Loud part",
-				"very_loud": "Very loud",
-				"heavy_part": "Heavy part",
-				"very_heavy": "Very heavy",
-				"spacey_part": "Spacey part",
-				"very_spacey": "Very spacey",
-				"trippy_part": "Trippy part",
-				"very_trippy": "Very trippy",
-				"break": "Break",
-				"breakdown": "Breakdown",
-				"gtr_break": "Gtr break",
-				"bass_break": "Bass break",
-				"drum_break": "Drum break",
-				"organ_break": "Organ break",
-				"synth_break": "Synth break",
-				"piano_break": "Piano break",
-				"keyboard_break": "Keyboard break",
-				"horn_break": "Horn break",
-				"scratch_break": "Scratch break",
-				"percussion_break": "Percussion break",
-				"dj_break": "DJ break",
-				"drop": "Drop",
-				"interlude": "Interlude",
-				"soundscape": "Soundscape",
-				"jam": "Jam",
-				"space_jam": "Space jam",
-				"vamp": "Vamp",
-				"build_up": "Build up",
-				"speed_up": "Speed up",
-				"tension": "Tension",
-				"release": "Release",
-				"crescendo": "Crescendo",
-				"melody": "Melody",
-				"lo_melody": "Low melody",
-				"hi_melody": "High melody",
-				"main_riff": "Main riff",
-				"verse_riff": "Verse riff",
-				"chorus_riff": "Chorus riff",
-				"gtr_riff": "Gtr riff",
-				"bass_riff": "Bass riff",
-				"big_riff": "Big riff",
-				"bigger_riff": "Bigger riff",
-				"heavy_riff": "Heavy riff",
-				"fast_riff": "Fast riff",
-				"slow_riff": "Slow riff",
-				"swing_riff": "Swing riff",
-				"chunky_riff": "Chunky riff",
-				"odd_riff": "Odd riff",
-				"hook": "Hook",
-				"drum_roll": "Drum roll",
-				"gtr_lead": "Gtr lead",
-				"gtr_fill": "Gtr fill",
-				"gtr_hook": "Gtr hook",
-				"gtr_melody": "Gtr melody",
-				"gtr_line": "Gtr line",
-				"gtr_lick": "Gtr lick",
-				"gtr_ostinato": "Gtr ostinato",
-				"vocal_break": "Vocal break",
-				"ah": "Ah!",
-				"yeah": "Yeah!",
-				"oohs": "Oohs and Ahs",
-				"prayer": "Prayer",
-				"chant": "Chant",
-				"spoken_word": "Spoken word",
-				"outro": "Outro",
-				"outro_solo": "Outro solo",
-				"outro_chorus": "Outro chorus",
-				"ending": "Ending",
-				"bre": "Big Rock Ending!",
-				"fade_out": "Fade out",
-				"fast_picking": "Fast picking",
-				"foreplay_intro": "Foreplay intro",
-				"longtome_intro": "Long Time intro"
-			},
-			"SectionFormats": {
-				"LetterSection": "{0} section",
-				"WithNumber": "{0} {1}",
-				"PercentageBased": "{0}% - {1}%"
-			}
-		}
+        "Practice": {
+            "Sections": {
+                "intro": "Intro",
+                "intro_slow": "Intro slow",
+                "intro_fast": "Intro fast",
+                "intro_heavy": "Intro heavy",
+                "quiet_intro": "Quiet intro",
+                "noise_intro": "Noise intro",
+                "drum_intro": "Drum intro",
+                "bass_intro": "Bass intro",
+                "vocal_intro": "Vocal intro",
+                "gtr_intro": "Gtr intro",
+                "aco_gtr_intro": "Aco gtr intro",
+                "violin_intro": "Violin intro",
+                "strings_intro": "Strings intro",
+                "orch_intro": "Orch intro",
+                "horn_intro": "Horn intro",
+                "harmonica_intro": "Harmonica intro",
+                "organ_intro": "Organ intro",
+                "piano_intro": "Piano intro",
+                "keyboard_intro": "Keyboard intro",
+                "dj_intro": "DJ intro",
+                "intro_hook": "Intro hook",
+                "intro_riff": "Intro riff",
+                "fade_in": "Fade in",
+                "drums_enter": "Drums enter",
+                "bass_enters": "Bass enters",
+                "gtr_enters": "Gtr enters",
+                "rhy_enters": "Gtr2 enters",
+                "band_enters": "Band enters",
+                "synth_enters": "Synth enters",
+                "keyboard_enters": "Keyboard enters",
+                "organ_enters": "Organ enters",
+                "piano_enters": "Piano enters",
+                "kick_it": "Kick It!",
+                "intro_verse": "Intro verse",
+                "intro_chorus": "Intro chorus",
+                "verse": "Verse",
+                "alt_verse": "Alt verse",
+                "quiet_verse": "Quiet verse",
+                "preverse": "Pre-verse",
+                "postverse": "Post-verse",
+                "chorus": "Chorus",
+                "chorus_break": "Chorus break",
+                "breakdown_chorus": "Breakdown chorus",
+                "alt_chorus": "Alt chorus",
+                "prechorus": "Pre-chorus",
+                "postchorus": "Post-chorus",
+                "bridge": "Bridge",
+                "gtr_solo": "Gtr solo",
+                "slide_solo": "Slide solo",
+                "violin_solo": "Violin solo",
+                "drum_solo": "Drum solo",
+                "percussion_solo": "Percussion solo",
+                "bass_solo": "Bass solo",
+                "organ_solo": "Organ solo",
+                "piano_solo": "Piano solo",
+                "keyboard_solo": "Keyboard solo",
+                "synth_solo": "Synth solo",
+                "harmonica_solo": "Harmonica solo",
+                "sax_solo": "Sax solo",
+                "horn_solo": "Horn solo",
+                "flute_solo": "Flute solo",
+                "noise_solo": "Noise solo",
+                "noise_build": "Noise build",
+                "dj_solo": "DJ solo",
+                "slow_part": "Slow part",
+                "very_slow": "Very slow",
+                "fast_part": "Fast part",
+                "very_fast": "Very fast",
+                "quiet_part": "Quiet part",
+                "very_quiet": "Very quiet",
+                "loud_part": "Loud part",
+                "very_loud": "Very loud",
+                "heavy_part": "Heavy part",
+                "very_heavy": "Very heavy",
+                "spacey_part": "Spacey part",
+                "very_spacey": "Very spacey",
+                "trippy_part": "Trippy part",
+                "very_trippy": "Very trippy",
+                "break": "Break",
+                "breakdown": "Breakdown",
+                "gtr_break": "Gtr break",
+                "bass_break": "Bass break",
+                "drum_break": "Drum break",
+                "organ_break": "Organ break",
+                "synth_break": "Synth break",
+                "piano_break": "Piano break",
+                "keyboard_break": "Keyboard break",
+                "horn_break": "Horn break",
+                "scratch_break": "Scratch break",
+                "percussion_break": "Percussion break",
+                "dj_break": "DJ break",
+                "drop": "Drop",
+                "interlude": "Interlude",
+                "soundscape": "Soundscape",
+                "jam": "Jam",
+                "space_jam": "Space jam",
+                "vamp": "Vamp",
+                "build_up": "Build up",
+                "speed_up": "Speed up",
+                "tension": "Tension",
+                "release": "Release",
+                "crescendo": "Crescendo",
+                "melody": "Melody",
+                "lo_melody": "Low melody",
+                "hi_melody": "High melody",
+                "main_riff": "Main riff",
+                "verse_riff": "Verse riff",
+                "chorus_riff": "Chorus riff",
+                "gtr_riff": "Gtr riff",
+                "bass_riff": "Bass riff",
+                "big_riff": "Big riff",
+                "bigger_riff": "Bigger riff",
+                "heavy_riff": "Heavy riff",
+                "fast_riff": "Fast riff",
+                "slow_riff": "Slow riff",
+                "swing_riff": "Swing riff",
+                "chunky_riff": "Chunky riff",
+                "odd_riff": "Odd riff",
+                "hook": "Hook",
+                "drum_roll": "Drum roll",
+                "gtr_lead": "Gtr lead",
+                "gtr_fill": "Gtr fill",
+                "gtr_hook": "Gtr hook",
+                "gtr_melody": "Gtr melody",
+                "gtr_line": "Gtr line",
+                "gtr_lick": "Gtr lick",
+                "gtr_ostinato": "Gtr ostinato",
+                "vocal_break": "Vocal break",
+                "ah": "Ah!",
+                "yeah": "Yeah!",
+                "oohs": "Oohs and Ahs",
+                "prayer": "Prayer",
+                "chant": "Chant",
+                "spoken_word": "Spoken word",
+                "outro": "Outro",
+                "outro_solo": "Outro solo",
+                "outro_chorus": "Outro chorus",
+                "ending": "Ending",
+                "bre": "Big Rock Ending!",
+                "fade_out": "Fade out",
+                "fast_picking": "Fast picking",
+                "foreplay_intro": "Foreplay intro",
+                "longtome_intro": "Long Time intro"
+            },
+            "SectionFormats": {
+                "LetterSection": "{0} section",
+                "WithNumber": "{0} {1}",
+                "PercentageBased": "{0}% - {1}%"
+            }
+        }
     },
-	"Preview": {
-		"Experimental": {
-			"Notice": "IMPORTANT\n\nThese settings represent a work in progress. They are subject to change, may contain bugs, and could even cause major problems if enabled."
-		}
-	},
+    "Preview": {
+        "Experimental": {
+            "Notice": "IMPORTANT\n\nThese settings represent a work in progress. They are subject to change, may contain bugs, and could even cause major problems if enabled."
+        }
+    },
     "Discord": {
         "Default": {
             "Details": "Hello there ladies and gentlemen!",
@@ -1054,10 +1054,14 @@
                     "Reduced": "Reduced"
                 }
             },
-			"SongBackgroundOpacity": {
-				"Name": "Song Background Opacity",
-				"Description": "Adjusts the opacity of background during gameplay."
-			},
+            "SongBackgroundOpacity": {
+                "Name": "Song Background Opacity",
+                "Description": "Adjusts the opacity of background during gameplay."
+            },
+            "TransposeSemitones": {
+                "Name": "Transpose (Semitones)",
+                "Description": "Shift the song's pitch up or down by semitones without changing tempo."
+            },
             "UseChipmunkSpeed": {
                 "Name": "Chipmunk Speed",
                 "Description": "Disables pitch correction when playing songs at a fast or slow speed which may lead to some... interesting results."
@@ -1119,10 +1123,10 @@
                 "PauseName": "Vocals",
                 "Description": "Adjusts the song's vocal track volume. Only does something if the song is multi-track."
             },
-            "VoiceActivatedVocalStarPower" : {
-				"Name": "Voice Activated Star Power (Vocals)",
-				"Description": "If enabled, vocalists can activate their Star Power by making a noise. Keybinds can be used instead, regardless of this setting."
-			},
+            "VoiceActivatedVocalStarPower": {
+                "Name": "Voice Activated Star Power (Vocals)",
+                "Description": "If enabled, vocalists can activate their Star Power by making a noise. Keybinds can be used instead, regardless of this setting."
+            },
             "VSync": {
                 "Name": "Enable VSync",
                 "Description": "Enables VSync. VSync caps the framerate at your monitor's maximum framerate, and prevents tearing."
@@ -1247,10 +1251,10 @@
                 "Name": "Show Player Name When Starting Song",
                 "Description": "If enabled, the player name and instrument icon will appear when the song starts."
             },
-			"StaticVocalsMode": {
-				"Name": "Static Vocals Mode",
-				"Description": "When enabled, lyrics stay stationary on the left side of the vocal highway. When disabled, lyrics scroll across the vocal highway."
-			},
+            "StaticVocalsMode": {
+                "Name": "Static Vocals Mode",
+                "Description": "When enabled, lyrics stay stationary on the left side of the vocal highway. When disabled, lyrics scroll across the vocal highway."
+            },
             "UseThreeLaneLyricsInHarmony": {
                 "Name": "Use Three Lyric Lanes In Harmony",
                 "Description": "If enabled, the game will display three lyric lanes in harmony mode (one for each harmony). When disabled, the game will combine the lyrics of harmonies 2 and 3 into one lane at the top."
@@ -1268,7 +1272,7 @@
             "CameraSettingsContainer": "Camera Presets",
             "ColorProfileContainer": "Color Profiles",
             "EnginePresetContainer": "Engine Presets",
-            "HighwayPresetContainer" : "Highway Presets"
+            "HighwayPresetContainer": "Highway Presets"
         },
         "PresetSetting": {
             "CameraPreset": {
@@ -1317,15 +1321,15 @@
                 "BlueCymbal": {
                     "Name": "Blue Cymbal"
                 },
-				"BlueCymbalFret": {
-					"Name": "Blue Cymbal Fret\n(split view only)"
-				},
-				"BlueCymbalFretInner": {
-					"Name": "Blue Cymbal Fret Inner\n(split view only)"
-				},
-				"BlueCymbalParticles": {
-					"Name": "Blue Cymbal Particles\n(split view only)"
-				},
+                "BlueCymbalFret": {
+                    "Name": "Blue Cymbal Fret\n(split view only)"
+                },
+                "BlueCymbalFretInner": {
+                    "Name": "Blue Cymbal Fret Inner\n(split view only)"
+                },
+                "BlueCymbalParticles": {
+                    "Name": "Blue Cymbal Particles\n(split view only)"
+                },
                 "BlueCymbalStarpower": {
                     "Name": "Blue Cymbal Star Power"
                 },
@@ -1365,15 +1369,15 @@
                 "GreenCymbal": {
                     "Name": "Green Cymbal"
                 },
-				"GreenCymbalFret": {
-					"Name": "Green Cymbal Fret\n(split view only)"
-				},
-				"GreenCymbalFretInner": {
-					"Name": "Green Cymbal Fret Inner\n(split view only)"
-				},
-				"GreenCymbalParticles": {
-					"Name": "Green Cymbal Particles\n(split view only)"
-				},
+                "GreenCymbalFret": {
+                    "Name": "Green Cymbal Fret\n(split view only)"
+                },
+                "GreenCymbalFretInner": {
+                    "Name": "Green Cymbal Fret Inner\n(split view only)"
+                },
+                "GreenCymbalParticles": {
+                    "Name": "Green Cymbal Particles\n(split view only)"
+                },
                 "GreenCymbalStarpower": {
                     "Name": "Green Cymbal Star Power"
                 },
@@ -1476,15 +1480,15 @@
                 "RedCymbal": {
                     "Name": "Red Cymbal"
                 },
-				"RedCymbalFret": {
-					"Name": "Red Cymbal Fret\n(split view only)"
-				},
-				"RedCymbalFretInner": {
-					"Name": "Red Cymbal Fret Inner\n(split view only)"
-				},
-				"RedCymbalParticles": {
-					"Name": "Red Cymbal Particles\n(split view only)"
-				},
+                "RedCymbalFret": {
+                    "Name": "Red Cymbal Fret\n(split view only)"
+                },
+                "RedCymbalFretInner": {
+                    "Name": "Red Cymbal Fret Inner\n(split view only)"
+                },
+                "RedCymbalParticles": {
+                    "Name": "Red Cymbal Particles\n(split view only)"
+                },
                 "RedCymbalStarpower": {
                     "Name": "Red Cymbal Star Power"
                 },
@@ -1524,15 +1528,15 @@
                 "YellowCymbal": {
                     "Name": "Yellow Cymbal"
                 },
-				"YellowCymbalFret": {
-					"Name": "Yellow Cymbal Fret\n(split view only)"
-				},
-				"YellowCymbalFretInner": {
-					"Name": "Yellow Cymbal Fret Inner\n(split view only)"
-				},
-				"YellowCymbalParticles": {
-					"Name": "Yellow Cymbal Particles\n(split view only)"
-				},
+                "YellowCymbalFret": {
+                    "Name": "Yellow Cymbal Fret\n(split view only)"
+                },
+                "YellowCymbalFretInner": {
+                    "Name": "Yellow Cymbal Fret Inner\n(split view only)"
+                },
+                "YellowCymbalParticles": {
+                    "Name": "Yellow Cymbal Particles\n(split view only)"
+                },
                 "YellowCymbalStarpower": {
                     "Name": "Yellow Cymbal Star Power"
                 },
@@ -1726,7 +1730,7 @@
                     "Description": "Allows solo buttons to tap notes during solos"
                 }
             },
-            "HighwayPreset" : {
+            "HighwayPreset": {
                 "BackgroundBaseColor1": {
                     "Name": "Background Base Color 1"
                 },

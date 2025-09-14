@@ -8,6 +8,7 @@ namespace YARG.Gameplay.HUD
         private static readonly List<string> _soundSettings = new()
         {
             nameof(SettingsManager.Settings.MasterMusicVolume),
+            nameof(SettingsManager.Settings.TransposeSemitones),
             nameof(SettingsManager.Settings.GuitarVolume),
             nameof(SettingsManager.Settings.RhythmVolume),
             nameof(SettingsManager.Settings.BassVolume),
@@ -18,6 +19,7 @@ namespace YARG.Gameplay.HUD
             nameof(SettingsManager.Settings.CrowdVolume),
             nameof(SettingsManager.Settings.SfxVolume),
             nameof(SettingsManager.Settings.VocalMonitoring),
+            nameof(SettingsManager.Settings.TransposeSemitones),
         };
     }
 }

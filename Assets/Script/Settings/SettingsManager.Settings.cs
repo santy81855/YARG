@@ -138,6 +138,10 @@ namespace YARG.Settings
 
             #region Sound
 
+            // Global semitone shift (key change)
+            public SliderSetting TransposeSemitones { get; } =
+                new(0f, -6f, 6f, v => TransposeController.Set(v));
+
             public VolumeSetting MasterMusicVolume { get; } = new(0.75f, v => GlobalAudioHandler.SetMasterVolume(v));
 
             public VolumeSetting GuitarVolume { get; } =

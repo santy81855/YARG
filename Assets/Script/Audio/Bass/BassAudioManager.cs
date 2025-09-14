@@ -96,6 +96,20 @@ namespace YARG.Audio.BASS
 
         private readonly int _opusHandle = 0;
 
+        // === Transpose wiring ===
+        // Keep a registry of tempo-capable channels (per-stem streams) to apply global transpose.
+        private static readonly HashSet<int> _transposeChannels = new();
+
+        private static void ApplyTransposeToAll(float semitones)
+        {
+            foreach (var ch in _transposeChannels)
+            {
+                // Ignore failures (channel may have been freed already)
+                Bass.ChannelSetAttribute(ch, ChannelAttribute.Pitch, semitones);
+            }
+        }
+        // ========================
+
         public BassAudioManager()
         {
             YargLogger.LogInfo("Initializing BASS...");
@@ -160,6 +174,10 @@ namespace YARG.Audio.BASS
             YargLogger.LogFormatInfo("Update Period: {0}ms. Device Buffer Length: {1}ms. Playback Buffer Length: {2}ms. Device Playback Latency: {3}ms",
                 Bass.UpdatePeriod, Bass.DeviceBufferLength, Bass.PlaybackBufferLength, PlaybackLatency);
             YargLogger.LogFormatInfo("Current Device: {0}", Bass.GetDeviceInfo(Bass.CurrentDevice).Name);
+
+            // Hook global transpose changes and apply initial value
+            TransposeController.Changed += ApplyTransposeToAll;
+            ApplyTransposeToAll(TransposeController.Semitones);
         }
 
 #nullable enable
@@ -369,6 +387,10 @@ namespace YARG.Audio.BASS
 
         protected override void DisposeUnmanagedResources()
         {
+            // Cleanup transpose subscriptions/registry
+            TransposeController.Changed -= ApplyTransposeToAll;
+            _transposeChannels.Clear();
+
             YargLogger.LogInfo("Unloading BASS plugins");
             Bass.PluginFree(0);
             Bass.Free();
@@ -491,6 +513,14 @@ namespace YARG.Audio.BASS
                 streamHandles.Dispose();
                 return false;
             }
+
+            // === Transpose: register the new tempo streams and apply current transpose ===
+            _transposeChannels.Add(streamHandles.Stream);
+            _transposeChannels.Add(reverbHandles.Stream);
+            Bass.ChannelSetAttribute(streamHandles.Stream, ChannelAttribute.Pitch, TransposeController.Semitones);
+            Bass.ChannelSetAttribute(reverbHandles.Stream, ChannelAttribute.Pitch, TransposeController.Semitones);
+            // ============================================================================
+
             return true;
         }
 
@@ -573,5 +603,6 @@ namespace YARG.Audio.BASS
         {
             return Math.Log(FACTOR * volume + 1, BASE);
         }
+        // ============================================================================
     }
 }
