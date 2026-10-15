@@ -57,7 +57,9 @@ Unity -batchmode -nographics -quit -projectPath /path/to/project \
 
 Require a successful build result and `YARG_SINGING_RELEASE_SUCCESS` in each log.
 The builder temporarily uses product name `YARG Singing`, includes the version
-resource, and forces Mono. Its settings use
+resource, and forces Mono. Windows uses DirectX 11 to avoid compiling and shipping
+additional OpenGL/Vulkan shader variants. Linux retains the project's graphics
+configuration. Its settings use
 `YARC/YARG Singing/dev/` under Unity's per-user persistent data directory. This
 keeps regular YARG and the existing local development build separate. The builder
 restores the project product name, version, and scripting backend afterward.
@@ -72,12 +74,12 @@ the package manifest records the current source commit and pinned core commit.
 ```sh
 python3 Tools/Release/package.py --build /path/to/players/linux \
   --output Builds/Releases --platform linux --version 0.1.0-beta.1 \
-  --tag singing-v0.1.0-beta.1
+  --tag singing-v0.1.0-beta.1-r1
 python3 Tools/Release/package.py --build /path/to/players/windows \
   --output Builds/Releases --platform windows --version 0.1.0-beta.1 \
-  --tag singing-v0.1.0-beta.1
+  --tag singing-v0.1.0-beta.1-r1
 python3 Tools/Release/package.py --output Builds/Releases --platform source \
-  --version 0.1.0-beta.1 --tag singing-v0.1.0-beta.1
+  --version 0.1.0-beta.1 --tag singing-v0.1.0-beta.1-r1
 ```
 
 The packager copies complete runtime folders, omits Unity's explicitly marked
