@@ -6,6 +6,11 @@ archive with hydrated Git LFS assets and the pinned YARG.Core submodule, checksu
 and release notes. Songs, user settings, microphone profiles and conversion work
 are not part of a release.
 
+The Windows native image-decoding plugin depends on VCRUNTIME140.dll. End users
+may need Microsoft's Visual C++ v14 Redistributable (x64), linked in the packaged
+README. Its runtime is installed separately rather than copied from a developer
+machine.
+
 ## Build requirements
 
 - Unity **6000.3.5f2** with Linux Standalone support and Windows Build Support

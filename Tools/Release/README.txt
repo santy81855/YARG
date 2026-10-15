@@ -8,7 +8,8 @@ Getting started
 Extract the entire archive to a writable folder. Keep the executable, its _Data
 folder, and the other included runtime files together. Unity is not required.
 
-Windows: open YARG-Singing.exe.
+Windows: install Microsoft's Visual C++ v14 Redistributable (x64) if needed, then
+open YARG-Singing.exe. Official installer: https://aka.ms/vc14/vc_redist.x64.exe
 Linux: run ./Play-YARG.sh. If needed, mark it executable with chmod +x Play-YARG.sh.
 
 Connect your microphone/controller, create or connect your player profile, then

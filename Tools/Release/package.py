@@ -44,7 +44,8 @@ def package(build, output, platform, version, tag):
                      "UnityPlayer.dll" if platform == "windows" else "UnityPlayer.so"):
         if not (build / required).is_file():
             raise RuntimeError(f"Incomplete build: {required}")
-    if any(build.rglob("settings.json")) or any(build.rglob("songcache.bin")):
+    addressables_settings = build / "YARG-Singing_Data/StreamingAssets/aa/settings.json"
+    if any(file != addressables_settings for file in build.rglob("settings.json")) or any(build.rglob("songcache.bin")):
         raise RuntimeError("Build folder contains user settings or a song cache")
 
     name = f"YARG-Singing-{version}-{platform}-x64"
