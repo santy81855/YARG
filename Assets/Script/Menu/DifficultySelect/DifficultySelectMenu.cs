@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -18,19 +17,16 @@ using YARG.Menu.Navigation;
 using YARG.Menu.Persistent;
 using YARG.Menu.Filters;
 using YARG.Player;
+using YARG.Settings;
 using YARG.Song;
 
 namespace YARG.Menu.DifficultySelect
 {
     public partial class DifficultySelectMenu : MonoBehaviour
     {
-        /// <summary>
-        /// The saved song speed value
-        /// </summary>
-        private static float _songSpeed = 1f;
-
         private enum State
         {
+            SongSetup,
             Main,
             Instrument,
             Difficulty,
@@ -48,6 +44,8 @@ namespace YARG.Menu.DifficultySelect
         private TextMeshProUGUI _text;
         [SerializeField]
         private TMP_InputField _speedInput;
+        [SerializeField]
+        private GameObject _speedContainer;
         [SerializeField]
         private TextMeshProUGUI _loadingPhrase;
         [SerializeField]
@@ -109,42 +107,10 @@ namespace YARG.Menu.DifficultySelect
                 NavigationScheme.Entry.NavigateUp,
                 NavigationScheme.Entry.NavigateDown,
                 NavigationScheme.Entry.NavigateSelect,
-                new NavigationScheme.Entry(MenuAction.Red, "Menu.Common.Back", () =>
-                {
-                    if (_playerIndex >= PlayerContainer.Players.Count &&
-                        YARG.Online.OnlineSession.Current is { IsConnected: true } waitingRoom)
-                    {
-                        waitingRoom.ReturnToRoom();
-                        return;
-                    }
-                    if (_menuState == State.Main)
-                    {
-                        if (_playerIndex == 0)
-                        {
-                            if (YARG.Online.OnlineSession.Current is { IsConnected: true } online)
-                            {
-                                online.ReturnToRoom();
-                                return;
-                            }
-                            MenuManager.Instance.PopMenu();
-                        }
-                        else
-                        {
-                            ChangePlayer(-1);
-                        }
-                    }
-                    else
-                    {
-                        _menuState = State.Main;
-                        UpdateForPlayer();
-                    }
-                })
+                new NavigationScheme.Entry(MenuAction.Red, "Menu.Common.Back", NavigateBack)
             }, false));
 
-            if (YARG.Online.OnlineSession.Current is { IsConnected: true, IsHost: false } room)
-                _songSpeed = room.SelectedSpeed;
-            _speedInput.interactable = YARG.Online.OnlineSession.Current is not { IsConnected: true, IsHost: false };
-            _speedInput.text = $"{Mathf.RoundToInt(_songSpeed * 100f)}%";
+            LoadSongPlaybackPreset();
             _songTitleText.text = GlobalVariables.State.CurrentSong.Name;
             _artistText.text = GlobalVariables.State.CurrentSong.Artist;
 
@@ -157,13 +123,9 @@ namespace YARG.Menu.DifficultySelect
                 _songList = new List<SongEntry> { GlobalVariables.State.CurrentSong };
             }
 
-            // ChangePlayer(0) will update for the current player
             _playerIndex = 0;
             _vocalModifierSelectIndex = -1;
-            ChangePlayer(0);
-
-            _loadingPhrase.text = RichTextUtils.StripRichTextTags(
-                GlobalVariables.State.CurrentSong.LoadingPhrase, RichTextTags.BadTags);
+            ShowSongSetup();
 
             _sourceIcon.sprite = SongSources.SourceToIcon(GlobalVariables.State.CurrentSong.Source);
             _sourceIcon.gameObject.SetActive(_sourceIcon.sprite != null);
@@ -203,13 +165,24 @@ namespace YARG.Menu.DifficultySelect
         private void UpdateForPlayer()
         {
             _container.gameObject.SetActive(true);
-            // Set player text
-            var profile = CurrentPlayer.Profile;
-            _text.text = $"<sprite name=\"{profile.GameMode.ToResourceName()}\"> {profile.Name}";
-
             // Reset content
             _navGroup.ClearNavigatables();
             _container.DestroyChildren();
+            _songKeyRow = null;
+            _speedContainer.SetActive(_menuState == State.SongSetup);
+
+            if (_menuState == State.SongSetup)
+            {
+                CreateSongSetupMenu();
+                _lastMenuState = _menuState;
+                return;
+            }
+
+            // Individual player menus contain only player-specific choices.
+            var profile = CurrentPlayer.Profile;
+            _text.text = $"<sprite name=\"{profile.GameMode.ToResourceName()}\"> {profile.Name}";
+            _loadingPhrase.text = RichTextUtils.StripRichTextTags(
+                GlobalVariables.State.CurrentSong.LoadingPhrase, RichTextTags.BadTags);
             StatsManager.Instance.UpdateActivePlayers();
 
             // Create the menu
@@ -268,7 +241,6 @@ namespace YARG.Menu.DifficultySelect
                     ChangePlayer(1);
                 });
 
-                CreateSongKeyItem();
                 CreateItem(LocalizeHeader("Instrument"),
                     player.Profile.CurrentInstrument.ToLocalizedName(),
                     _lastMenuState == State.Instrument, () =>
@@ -564,11 +536,8 @@ namespace YARG.Menu.DifficultySelect
                     }
                 }
 
-                // This will always work (as it's set up in the input field)
-                // The max speed that the game can keep up with is 5000%
-                float speed = float.Parse(_speedInput.text.TrimEnd('%')) / 100f;
-                speed = Mathf.Clamp(speed, 0.1f, 50.0f);
-                _songSpeed = speed;
+                // Commit the current text even if Ready is pressed before the field loses focus.
+                float speed = CommitSongSpeed(_speedInput.text);
                 GlobalVariables.State.SongSpeed = speed;
 
                 if (YARG.Online.OnlineSession.Current is { IsConnected: true } online)
@@ -696,6 +665,7 @@ namespace YARG.Menu.DifficultySelect
 
         private void OnDisable()
         {
+            SettingsManager.ClearSongVocalsPreset();
             _navGroup.SelectionChanged -= UpdateForSelectionChanged;
             Navigator.Instance.PopScheme();
         }
@@ -806,14 +776,7 @@ namespace YARG.Menu.DifficultySelect
 
         public void SongSpeedEndEdit(string text)
         {
-            if (!float.TryParse(text.TrimEnd('%'), NumberStyles.Number, null, out var speed))
-            {
-                speed = 100;
-            }
-
-            int intSpeed = (int) Math.Clamp(speed, 10, 5000);
-
-            _speedInput.SetTextWithoutNotify($"{intSpeed}%");
+            CommitSongSpeed(text);
         }
     }
 }

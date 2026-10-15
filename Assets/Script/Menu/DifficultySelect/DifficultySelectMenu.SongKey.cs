@@ -1,8 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
-using YARG.Core;
-using YARG.Core.Game;
 using YARG.Core.Logging;
 using YARG.Core.Song;
 using YARG.Helpers;
@@ -23,7 +21,7 @@ namespace YARG.Menu.DifficultySelect
 
         private void CreateSongKeyItem()
         {
-            if (CurrentPlayer.Profile.GameMode != GameMode.Vocals || GlobalVariables.State.IsReplay ||
+            if (_menuState != State.SongSetup || GlobalVariables.State.IsReplay ||
                 GlobalVariables.State.PlayingAShow) return;
 
             var song = GlobalVariables.State.CurrentSong;
@@ -42,7 +40,7 @@ namespace YARG.Menu.DifficultySelect
         {
             try { await task; }
             catch (Exception e) { YargLogger.LogException(e, "Could not read the song's vocal range"); }
-            if (this != null && isActiveAndEnabled && _playerIndex < YARG.Player.PlayerContainer.Players.Count &&
+            if (this != null && isActiveAndEnabled && _menuState == State.SongSetup &&
                 _pitchPreviewSong == song && _songKeyRow != null)
                 _songKeyRow.Refresh();
         }
@@ -56,6 +54,7 @@ namespace YARG.Menu.DifficultySelect
 
         private void SetSelectedSongKey(int key)
         {
+            if (_menuState != State.SongSetup) return;
             key = SongKey.Clamp(key);
             if (key == GetSelectedSongKey()) return;
             string hash = GlobalVariables.State.CurrentSong.Hash.ToString();
@@ -72,15 +71,12 @@ namespace YARG.Menu.DifficultySelect
 
         private string KeyContext()
         {
-            if (CurrentPlayer.Profile.IsModifierActive(Modifier.UnpitchedOnly))
-                return Localize.Key("Menu.SongKey.Unpitched");
             if (_pitchPreviewTask == null || !_pitchPreviewTask.IsCompleted)
                 return Localize.Key("Menu.SongKey.LoadingNotes");
             if (_pitchPreviewTask.Status != TaskStatus.RanToCompletion)
                 return Localize.Key("Menu.SongKey.NotesUnavailable");
-            var profile = CurrentPlayer.Profile;
-            float? highest = _pitchPreviewTask.Result.Highest(profile.CurrentInstrument, profile.HarmonyIndex);
-            return highest.HasValue ? Localize.KeyFormat("Menu.SongKey.HighestNote",
+            float? highest = _pitchPreviewTask.Result.HighestAcrossParts();
+            return highest.HasValue ? Localize.KeyFormat("Menu.SongKey.HighestNoteAllParts",
                 VocalPitchPreview.NoteName(highest.Value + GetSelectedSongKey())) : Localize.Key("Menu.SongKey.Unpitched");
         }
     }

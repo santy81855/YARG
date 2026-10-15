@@ -72,7 +72,7 @@ namespace YARG.Gameplay
                     SongStem.Bass      => SettingsManager.Settings.BassVolume.Value,
                     SongStem.Keys      => SettingsManager.Settings.KeysVolume.Value,
                     SongStem.Drums     => SettingsManager.Settings.DrumsVolume.Value,
-                    SongStem.Vocals    => SettingsManager.Settings.VocalsVolume.Value,
+                    SongStem.Vocals    => SettingsManager.GetEffectiveVocalVolume(SettingsManager.Settings.VocalsVolume.Value),
                     SongStem.Song      => SettingsManager.Settings.SongVolume.Value,
                     SongStem.Crowd     => SettingsManager.Settings.CrowdVolume.Value,
                     SongStem.Sfx       => SettingsManager.Settings.SfxVolume.Value,

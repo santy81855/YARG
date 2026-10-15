@@ -43,6 +43,7 @@ ExportedObj/
 *.csproj
 !/Tests/SongKey/SongKey.Checks.csproj
 !/Tests/Online/Online.Checks.csproj
+!/Tests/SongPresets/SongPresets.Checks.csproj
 *.unityproj
 *.sln
 *.slnx

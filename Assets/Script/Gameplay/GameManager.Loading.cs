@@ -163,6 +163,8 @@ namespace YARG.Gameplay
             }
 
             InitializeSongKey();
+            if (ReplayInfo == null)
+                SettingsManager.ApplySongVocalsPreset(Song.Hash.ToString());
 
             context.Queue(UniTask.RunOnThreadPool(LoadChart), "Loading chart...");
             context.Queue(UniTask.RunOnThreadPool(LoadAudio), "Loading audio...");

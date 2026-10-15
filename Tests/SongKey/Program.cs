@@ -186,4 +186,10 @@ Check(pitches.Highest(Instrument.Vocals, 0) == 78 && pitches.Highest(Instrument.
     "Range did not follow the selected vocal part");
 Check(pitches.Highest(Instrument.Harmony, 0) == null && pitches.Highest(Instrument.Harmony, 2) == null,
     "Empty or absent part invented a vocal note");
+Check(pitches.HighestAcrossParts() == 78, "Shared setup did not include the solo vocal part");
+harmonyPhrase.AddChildNote(new VocalNote(90, 1, VocalNoteType.Lyric, 1.2, .5, 1152, 480));
+Check(new VocalPitchPreview(chartPreview).HighestAcrossParts() == 90,
+    "Shared setup did not include a higher harmony part");
+Check(new VocalPitchPreview(new SongChart(480)).HighestAcrossParts() == null,
+    "Shared setup invented a highest note in a chart without vocals");
 Console.WriteLine("PASS: pre-song highest note, slide endpoints, percussion/talkie exclusion, note names, transposition, separate harmony parts");

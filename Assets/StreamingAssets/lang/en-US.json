@@ -124,6 +124,7 @@
             "Label": "Song key (semitones)",
             "Reset": "Original key",
             "HighestNote": "Highest: {0}",
+            "HighestNoteAllParts": "Highest (all vocal parts): {0}",
             "LoadingNotes": "Reading vocal notes…",
             "NotesUnavailable": "Vocal notes unavailable",
             "Unpitched": "Unpitched vocals",
@@ -273,6 +274,10 @@
             }
         },
         "DifficultySelect": {
+            "SongSetup": "Shared song setup",
+            "SongSetupDescription": "These settings apply to everyone on this computer and are saved automatically for this song. Choose Continue to set up each player.",
+            "SongVocals": "Song vocals: {0}",
+            "PresetSaveError": "The song settings changed, but could not be saved for next time.",
             "Instrument": "Instrument",
             "Difficulty": "Difficulty",
             "Harmony": "Harmony",

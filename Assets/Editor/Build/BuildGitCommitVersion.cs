@@ -17,7 +17,9 @@ namespace Editor.Build
                 Directory.CreateDirectory(OUTPUT_FOLDER);
             }
 
-            File.WriteAllText("Assets/Resources/version.txt", GlobalVariables.LoadVersionFromGit());
+            string releaseVersion = BuildSingingRelease.Argument("-yarg-version");
+            File.WriteAllText("Assets/Resources/version.txt", releaseVersion == null
+                ? GlobalVariables.LoadVersionFromGit() : "YARG Singing " + releaseVersion);
         }
     }
 }

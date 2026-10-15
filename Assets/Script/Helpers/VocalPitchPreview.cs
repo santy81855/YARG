@@ -27,6 +27,8 @@ namespace YARG.Helpers
             return harmonyPart >= 0 && harmonyPart < pitches.Length ? pitches[harmonyPart] : null;
         }
 
+        public float? HighestAcrossParts() => _solo.Concat(_harmony).Max();
+
         public static float? HighestPitch(VocalsPart part)
         {
             float? highest = null;

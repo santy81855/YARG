@@ -57,6 +57,8 @@ namespace YARG.Settings
             // Indexed by chart hash so moving or rescanning songs preserves their keys.
             public Dictionary<string, int> SongKeyOffsets { get; set; } = new();
 
+            public Dictionary<string, SongPlaybackPreset> SongPlaybackPresets { get; set; } = new();
+
             /// <summary>
             /// Have the settings been initialized?
             /// </summary>
@@ -250,7 +252,7 @@ namespace YARG.Settings
                 new(1f, v => GlobalAudioHandler.SetVolumeSetting(SongStem.Drums, v));
 
             public VolumeSetting VocalsVolume { get; } =
-                new(1f, v => GlobalAudioHandler.SetVolumeSetting(SongStem.Vocals, v));
+                new(1f, SetGlobalVocalsVolume);
 
             public VolumeSetting SongVolume { get; } =
                 new(1f, v => GlobalAudioHandler.SetVolumeSetting(SongStem.Song, v));

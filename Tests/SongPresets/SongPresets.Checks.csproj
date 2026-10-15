@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Assets/Script/Settings/SongPlaybackPreset.cs" Link="SongPlaybackPreset.cs" />
+    <Compile Include="../../Assets/Script/Settings/SettingsManager.SongPresets.cs" Link="SettingsManager.SongPresets.cs" />
+    <Compile Include="../../Assets/Script/Menu/DifficultySelect/DifficultySelectMenu.SongPresets.cs" Link="DifficultySelectMenu.SongPresets.cs" />
+    <Compile Include="../../Assets/Script/Menu/DifficultySelect/DifficultySelectMenu.Vocals.cs" Link="DifficultySelectMenu.Vocals.cs" />
+    <Compile Include="../../Assets/Script/Menu/DifficultySelect/DifficultySelectMenu.SongSetup.cs" Link="DifficultySelectMenu.SongSetup.cs" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+</Project>

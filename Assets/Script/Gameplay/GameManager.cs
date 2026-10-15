@@ -242,6 +242,7 @@ namespace YARG.Gameplay
             {
                 GlobalAudioHandler.SetVolumeSetting(stem, state.Volume);
             }
+            SettingsManager.ClearSongVocalsPreset();
 
             DisposeDebug();
             _pauseMenu.PopAllMenus();

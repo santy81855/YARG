@@ -1,3 +1,11 @@
+> **YARG Singing — unofficial fork.** Adds a shared pre-song setup screen, per-song
+> key/vocals/speed presets, and transposed vocal audio, targets, and scoring.
+> [Downloads](https://github.com/santy81855/YARG/releases) ·
+> [Preset behavior](Docs/SongPresets.md) · [Building releases](Docs/ReleaseBuilds.md).
+> Online co-op is a prototype requiring Unity Services/Relay configuration and
+> further internet/cross-platform testing. The original YARG project and credits
+> remain below.
+
 <p align="center">
   <picture>
     <img alt="YARG Gameplay" src="./Images/Banner.png" width="100%">
