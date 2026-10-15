@@ -36,6 +36,13 @@ main project open. Set the executable path for your Unity installation. Start
 Unity with the appropriate build target so platform conditionals and native
 plugin selection are correct.
 
+For a Windows build from Linux, run `python3 Tools/Release/prepare_windows.py
+--project /path/to/project` after the initial package import and before launching
+Unity with Win64. HIDrogen 0.5.3's managed GameInput DLL otherwise permits only a
+Windows editor even though its Windows backend is compiled for the selected
+Windows target. This helper adjusts only the cached managed DLL's editor import
+OS; the Windows player flags and runtime input code are unchanged.
+
 ```sh
 Unity -batchmode -nographics -quit -projectPath /path/to/project \
   -buildTarget Linux64 -executeMethod Editor.Build.BuildSingingRelease.Build \
@@ -74,10 +81,14 @@ python3 Tools/Release/package.py --output Builds/Releases --platform source \
 ```
 
 The packager copies complete runtime folders, omits Unity's explicitly marked
-debug/backup folders, preserves Linux executable permissions, includes a launcher,
+debug/backup folders and editor-only streaming caches, preserves Linux executable permissions, includes a launcher,
 and adds build provenance, instructions, source licenses and dependency notices.
 It rejects builds containing a settings file or song cache. Keep source archives
 and logs outside the player folders.
+
+Run the archive-policy checks with `python3 -m unittest discover -s Tools/Release
+-p 'test_*.py'`. Addressables' runtime `aa/settings.json` is required and retained;
+personal settings files are rejected and editor `.vscode` settings are omitted.
 
 Also produce a source archive from the committed tracked files, replacing LFS
 pointers with actual local asset content and including the tracked files from

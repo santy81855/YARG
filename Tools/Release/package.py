@@ -12,8 +12,21 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def editor_only(path):
+    return any(part in (".git", ".vscode") or part.endswith("~") for part in path.parts)
+
+
+def ignore_editor_files(folder, names):
+    return [name for name in names if editor_only(Path(name))]
+
+
 def git(*args):
     return subprocess.check_output(["git", *args], cwd=ROOT, text=True).strip()
+
+
+def sha256(file):
+    with file.open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
 def source_archive(output, version, tag):
@@ -34,7 +47,7 @@ def source_archive(output, version, tag):
                         raise RuntimeError(f"Unhydrated LFS asset: {relative}")
             tar.add(file, arcname=str(Path(name) / relative), recursive=False)
     print(json.dumps({"archive": str(archive), "bytes": archive.stat().st_size,
-                      "sha256": hashlib.file_digest(archive.open("rb"), "sha256").hexdigest()}))
+                      "sha256": sha256(archive)}))
 
 
 def package(build, output, platform, version, tag):
@@ -45,7 +58,8 @@ def package(build, output, platform, version, tag):
         if not (build / required).is_file():
             raise RuntimeError(f"Incomplete build: {required}")
     addressables_settings = build / "YARG-Singing_Data/StreamingAssets/aa/settings.json"
-    if any(file != addressables_settings for file in build.rglob("settings.json")) or any(build.rglob("songcache.bin")):
+    if any(file != addressables_settings and not editor_only(file.relative_to(build))
+           for file in build.rglob("settings.json")) or any(build.rglob("songcache.bin")):
         raise RuntimeError("Build folder contains user settings or a song cache")
 
     name = f"YARG-Singing-{version}-{platform}-x64"
@@ -57,7 +71,7 @@ def package(build, output, platform, version, tag):
         if item.name.endswith(("_BackUpThisFolder_ButDontShipItWithYourGame", "_BurstDebugInformation_DoNotShip")):
             continue
         if item.is_dir():
-            shutil.copytree(item, stage / item.name)
+            shutil.copytree(item, stage / item.name, ignore=ignore_editor_files)
         else:
             shutil.copy2(item, stage / item.name)
     shutil.copy2(ROOT / "Tools/Release/README.txt", stage / "README.txt")
@@ -105,7 +119,7 @@ def package(build, output, platform, version, tag):
         with tarfile.open(archive, "x:gz", compresslevel=6) as tar:
             tar.add(stage, arcname=stage.name)
     print(json.dumps({"archive": str(archive), "bytes": archive.stat().st_size,
-                      "sha256": hashlib.file_digest(archive.open("rb"), "sha256").hexdigest()}))
+                      "sha256": sha256(archive)}))
 
 
 if __name__ == "__main__":
