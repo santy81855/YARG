@@ -12,6 +12,9 @@ namespace YARG.Menu.DifficultySelect
         [SerializeField]
         private TextMeshProUGUI _body;
 
+        public TextMeshProUGUI Header => _header;
+        public TextMeshProUGUI Body => _body;
+
         [field: SerializeField]
         public NavigatableButton Button { get; private set; }
 

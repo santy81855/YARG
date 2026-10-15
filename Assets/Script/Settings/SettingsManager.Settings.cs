@@ -54,6 +54,9 @@ namespace YARG.Settings
     {
         public class SettingContainer
         {
+            // Indexed by chart hash so moving or rescanning songs preserves their keys.
+            public Dictionary<string, int> SongKeyOffsets { get; set; } = new();
+
             /// <summary>
             /// Have the settings been initialized?
             /// </summary>

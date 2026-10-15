@@ -1,4 +1,4 @@
-{
+﻿{
     "Language": {
         "Name": "English",
         "Region": "United States",
@@ -120,6 +120,16 @@
 		}
     },
     "Menu": {
+        "SongKey": {
+            "Label": "Song key (semitones)",
+            "Reset": "Original key",
+            "HighestNote": "Highest: {0}",
+            "LoadingNotes": "Reading vocal notes…",
+            "NotesUnavailable": "Vocal notes unavailable",
+            "Unpitched": "Unpitched vocals",
+            "AudioError": "Unable to change the song key. The previous key is still active.",
+            "SaveError": "The song key changed, but could not be saved for next time."
+        },
         "Calibrator": {
             "Detected": "Detected",
             "NotEnoughData": "There isn't enough data to get an accurate result.\nPress back to exit."

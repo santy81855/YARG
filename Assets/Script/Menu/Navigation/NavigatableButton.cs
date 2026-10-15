@@ -26,6 +26,12 @@ namespace YARG.Menu.Navigation
             _onClick.RemoveAllListeners();
         }
 
+        public void ReplaceOnClickEvent(UnityAction action)
+        {
+            _onClick = new Button.ButtonClickedEvent();
+            _onClick.AddListener(action);
+        }
+
         public void SetOnClickEvent(UnityAction a)
         {
             _onClick.RemoveAllListeners();

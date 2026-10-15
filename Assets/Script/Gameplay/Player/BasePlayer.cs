@@ -112,6 +112,14 @@ namespace YARG.Gameplay.Player
         private List<GameInput> _replayInputs;
 
         private int _replayInputIndex;
+        private YARG.Online.RemoteInputStream _onlineInputs;
+
+        public void ReceiveOnlineFrame(long firstInput, double through, GameInput[] inputs)
+        {
+            if (!Player.IsRemote) throw new System.InvalidOperationException("This is a local player.");
+            _onlineInputs ??= new YARG.Online.RemoteInputStream(_replayInputs);
+            _onlineInputs.Append(firstInput, through, inputs, GameManager.SongLength);
+        }
 
         private float _noteSpeedDifficultyScale;
 
@@ -144,7 +152,7 @@ namespace YARG.Gameplay.Player
                 SantrollerHaptics = Player.Bindings.GetDevicesByType<ISantrollerHaptics>();
             }
 
-            if (!Player.IsReplay)
+            if (!Player.IsReplay && !Player.IsRemote)
             {
                 SubscribeToInputEvents();
             }
@@ -234,7 +242,7 @@ namespace YARG.Gameplay.Player
 
         protected override void GameplayDestroy()
         {
-            if (!Player.IsReplay)
+            if (!Player.IsReplay && !Player.IsRemote)
             {
                 UnsubscribeFromInputEvents();
             }
@@ -248,6 +256,21 @@ namespace YARG.Gameplay.Player
 
         protected virtual void UpdateInputs(double time)
         {
+            // Remote frames already contain the sender's input calibration and chart-relative pitch.
+            // Never advance a remote engine beyond the time the sender has completed.
+            if (Player.IsRemote)
+            {
+                if (_onlineInputs == null) return;
+                time = _onlineInputs.ThroughTime;
+                while (_onlineInputs.TryDequeue(out var input))
+                {
+                    BaseEngine.QueueInput(ref input);
+                    OnInputQueued(input);
+                }
+                BaseEngine.Update(time);
+                return;
+            }
+
             // Apply input offset
             // Video offset is already accounted for
             time += InputCalibration;

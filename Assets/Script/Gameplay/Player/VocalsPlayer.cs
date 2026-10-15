@@ -123,7 +123,7 @@ namespace YARG.Gameplay.Player
             _hud.ShowPlayerName(player, needleIndex);
 
             // Create and start an input context for the mic
-            if (!Player.IsReplay && player.Bindings.Microphone != null)
+            if (!Player.IsReplay && !Player.IsRemote && player.Bindings.Microphone != null)
             {
                 _inputContext = new MicInputContext(player.Bindings.Microphone, GameManager);
                 _inputContext.Start();
@@ -151,7 +151,8 @@ namespace YARG.Gameplay.Player
         {
             if (!Player.IsReplay)
             {
-                var singToActivateStarPower = SettingsManager.Settings.VoiceActivatedVocalStarPower.Value;
+                var singToActivateStarPower = Player.IsRemote ? Player.RemoteVoiceStarPower :
+                    SettingsManager.Settings.VoiceActivatedVocalStarPower.Value;
 
                 // Create the engine params from the engine preset
                 EngineParams = Player.EnginePreset.Vocals.Create(StarMultiplierThresholds, SoloBonusStarMultiplierThresholds,
@@ -465,7 +466,8 @@ namespace YARG.Gameplay.Player
                     }
 
                     // Transform!
-                    float z = GameManager.VocalTrack.GetPosForPitch(pitch);
+                    float z = GameManager.VocalTrack.GetPosForPitch(
+                        SongKey.ToPlaybackPitch(pitch, GameManager.SongKeySemitones));
                     var lerp = Mathf.Lerp(transformCache.localPosition.z, z, Time.deltaTime * lerpRate);
                     transformCache.localPosition = new Vector3(0f, 0f, lerp);
                     _needleTransform.rotation = Quaternion.Lerp(_needleTransform.rotation,
@@ -497,7 +499,8 @@ namespace YARG.Gameplay.Player
                     }
 
                     // Set the position of the needle
-                    var z = GameManager.VocalTrack.GetPosForPitch(pitch);
+                    var z = GameManager.VocalTrack.GetPosForPitch(
+                        SongKey.ToPlaybackPitch(pitch, GameManager.SongKeySemitones));
                     var lerp = Mathf.Lerp(transformCache.localPosition.z, z, Time.deltaTime * lerpRate);
                     transformCache.localPosition = new Vector3(0f, 0f, lerp);
 
@@ -618,6 +621,10 @@ namespace YARG.Gameplay.Player
 
         protected override bool InterceptInput(ref GameInput input)
         {
+            // Keep the engine and saved replay inputs in the chart's original key.
+            // Percussion, talkie detection, and input timing are unchanged.
+            input = SongKey.ToChartInput(input, GameManager.SongKeySemitones);
+
             return false;
         }
 

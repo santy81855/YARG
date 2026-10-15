@@ -2,6 +2,7 @@
 using UnityEngine;
 using YARG.Core.Chart;
 using YARG.Core.Logging;
+using YARG.Helpers;
 
 namespace YARG.Gameplay.Visuals
 {
@@ -44,7 +45,8 @@ namespace YARG.Gameplay.Visuals
             _points.Clear();
             foreach (var note in NoteRef.AllNotes)
             {
-                var z = VocalTrack.GetPosForPitch(note.Pitch);
+                var z = VocalTrack.GetPosForPitch(
+                    SongKey.ToPlaybackPitch(note.Pitch, GameManager.SongKeySemitones));
 
                 _points.Add(new Vector3(VocalTrack.GetPosForTime(note.Time - NoteRef.Time),    0f, z));
                 _points.Add(new Vector3(VocalTrack.GetPosForTime(note.TimeEnd - NoteRef.Time), 0f, z));

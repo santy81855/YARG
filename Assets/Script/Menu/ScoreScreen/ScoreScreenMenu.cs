@@ -106,7 +106,7 @@ namespace YARG.Menu.ScoreScreen
             // (kinda like a loading screen)
             try
             {
-                if (!AnalyzeReplay(song, scoreScreenStats.ReplayInfo))
+                if (YARG.Online.OnlineSession.Current?.RoundActive != true && !AnalyzeReplay(song, scoreScreenStats.ReplayInfo))
                 {
                     DialogManager.Instance.ShowMessage("Inconsistent Replay Results!",
                         "The replay analysis for this run produced inconsistent results to the actual gameplay.\n" +
@@ -138,6 +138,7 @@ namespace YARG.Menu.ScoreScreen
             _bandScoreNotSavedPill.SetValues(scoreNotSavedText,
                 ColoredPillElement.ColoredPillPreset.HarderModifier);
             _bandScoreNotSavedPill.gameObject.SetActive(
+                YARG.Online.OnlineSession.Current?.RoundActive == true ||
                 !ScoreContainer.IsBandScoreValid(PersistentState.Default.SongSpeed));
 
             // Set speed text (if not at 100% speed)
@@ -169,7 +170,7 @@ namespace YARG.Menu.ScoreScreen
         private void OnDisable()
         {
             MusicLibraryMenu.CurrentlyPlaying = GlobalVariables.State.CurrentSong;
-            if (!GlobalVariables.State.PlayingAShow && !_restartingSong)
+            if (YARG.Online.OnlineSession.Current?.RoundActive != true && !GlobalVariables.State.PlayingAShow && !_restartingSong)
             {
                 GlobalVariables.State = PersistentState.Default;
             }
@@ -434,6 +435,11 @@ namespace YARG.Menu.ScoreScreen
 
             _continueButtonEntry = new NavigationScheme.Entry(MenuAction.Green, "Menu.Common.Continue", () =>
                 {
+                    if (YARG.Online.OnlineSession.Current is { RoundActive: true } online)
+                    {
+                        online.ReturnToRoom();
+                        return;
+                    }
                     if (!_analyzingReplay)
                     {
                         GlobalVariables.State.ShowIndex++;
@@ -462,7 +468,10 @@ namespace YARG.Menu.ScoreScreen
             _restartButtonEntry = new NavigationScheme.Entry(MenuAction.Yellow, "Menu.ScoreScreen.RestartSong", () =>
             {
                 _restartingSong = true;
-                GlobalVariables.Instance.LoadScene(SceneIndex.Gameplay);
+                if (YARG.Online.OnlineSession.Current is { RoundActive: true } online)
+                    online.Restart();
+                else
+                    GlobalVariables.Instance.LoadScene(SceneIndex.Gameplay);
             });
 
             _addFavoriteButtonEntry = new NavigationScheme.Entry(MenuAction.Blue, "Menu.MusicLibrary.Popup.Item.AddToFavorites", () =>

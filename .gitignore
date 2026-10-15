@@ -41,6 +41,8 @@
 ExportedObj/
 .consulo/
 *.csproj
+!/Tests/SongKey/SongKey.Checks.csproj
+!/Tests/Online/Online.Checks.csproj
 *.unityproj
 *.sln
 *.slnx

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../YARG.Core/YARG.Core/YARG.Core.csproj" />
+    <Compile Include="../../Assets/Script/Helpers/SongKey.cs" Link="SongKey.cs" />
+    <Compile Include="../../Assets/Script/Helpers/VocalPitchPreview.cs" Link="VocalPitchPreview.cs" />
+    <Compile Include="../../Assets/Script/Gameplay/GameManager.SongKey.cs" Link="GameManager.SongKey.cs" />
+    <PackageReference Include="ManagedBass" Version="3.1.1" />
+    <PackageReference Include="ManagedBass.Fx" Version="3.1.1" />
+  </ItemGroup>
+</Project>

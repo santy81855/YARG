@@ -6441,6 +6441,7 @@ MonoBehaviour:
   _sourceText: {fileID: 1494490348}
   _sourceIcon: {fileID: 1802210267}
   _albumCover: {fileID: 201253040}
+  _songKeySettingPrefab: {fileID: 3409319213755494670, guid: fb300046e11747e7866fe668342879d0, type: 3}
 --- !u!1 &1327505390
 GameObject:
   m_ObjectHideFlags: 0

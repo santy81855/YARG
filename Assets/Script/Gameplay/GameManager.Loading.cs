@@ -162,6 +162,8 @@ namespace YARG.Gameplay
                 }
             }
 
+            InitializeSongKey();
+
             context.Queue(UniTask.RunOnThreadPool(LoadChart), "Loading chart...");
             context.Queue(UniTask.RunOnThreadPool(LoadAudio), "Loading audio...");
             await context.Wait();
@@ -241,7 +243,8 @@ namespace YARG.Gameplay
 
             _failMeter.Initialize(EngineManager, this);
 
-            if (SettingsManager.Settings.NoFail.Value == NoFailMode.NoMeter || IsPractice)
+            if (SettingsManager.Settings.NoFail.Value == NoFailMode.NoMeter || IsPractice ||
+                YARG.Online.OnlineSession.Current?.RoundActive == true)
             {
                 _failMeter.SetActive(false);
             }
@@ -265,6 +268,9 @@ namespace YARG.Gameplay
             // Log constant values
             YargLogger.LogFormatDebug("Audio calibration: {0}, video calibration: {1}, song offset: {2}",
                 _songRunner.AudioCalibration, _songRunner.VideoCalibration, _songRunner.SongOffset);
+
+            if (YARG.Online.OnlineSession.Current is { RoundActive: true } online && !await online.WaitForStart(this))
+                return;
 
             // Loaded, enable updates
             enabled = true;
@@ -412,9 +418,9 @@ namespace YARG.Gameplay
                 int vocalIndex = -1;
                 foreach (var player in YargPlayers)
                 {
-                    player.IsScoreValid = true;
+                    player.IsScoreValid = YARG.Online.OnlineSession.Current?.RoundActive != true;
 
-                    if (!player.IsReplay)
+                    if (!player.IsReplay && !player.IsRemote)
                     {
                         // Reset microphone (resets channel buffers)
                         // We probably wanna do this no matter what, so put it up here
@@ -428,7 +434,7 @@ namespace YARG.Gameplay
                     }
                     index++;
 
-                    if (!player.IsReplay)
+                    if (!player.IsReplay && !player.IsRemote)
                     {
                         // Don't do this if it's a replay, because the replay
                         // would've already set its own presets at this point

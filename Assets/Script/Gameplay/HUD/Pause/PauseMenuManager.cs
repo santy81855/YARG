@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using YARG.Helpers.Extensions;
+using YARG.Menu.Navigation;
 using YARG.Song;
 
 namespace YARG.Gameplay.HUD
@@ -44,7 +45,28 @@ namespace YARG.Gameplay.HUD
         [SerializeField]
         private RawImage _albumCover;
 
+        [SerializeField]
+        private SongKeyPauseSetting _songKeySettingPrefab;
+
         public bool IsOpen => _openMenus.Count > 0;
+
+        protected override void OnSongStarted()
+        {
+            if (!GameManager.CanChangeSongKey) return;
+
+            foreach (var menu in new[] { Menu.QuickPlayPause, Menu.PracticePause, Menu.SetlistPause })
+            {
+                if (!_menus.TryGetValue(menu, out var pause)) continue;
+
+                var group = pause.GetComponentInChildren<NavigationGroup>(true);
+                var setting = Instantiate(_songKeySettingPrefab, group.transform);
+                setting.Initialize(GameManager);
+
+                // Keep Resume first, with the song key immediately below it.
+                setting.transform.SetSiblingIndex(1);
+                group.InsertNavigatable(Math.Min(1, group.Count), setting);
+            }
+        }
 
         protected override void GameplayAwake()
         {
@@ -154,6 +176,11 @@ namespace YARG.Gameplay.HUD
 
         public void Restart()
         {
+            if (YARG.Online.OnlineSession.Current is { RoundActive: true } online)
+            {
+                online.Restart();
+                return;
+            }
             if (GameManager.IsPractice && GlobalVariables.State.IsPractice)
             {
                 PopMenu();

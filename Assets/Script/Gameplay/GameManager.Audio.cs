@@ -4,6 +4,7 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
+using YARG.Audio.BASS;
 using YARG.Core.Audio;
 using YARG.Playback;
 using YARG.Settings;
@@ -104,6 +105,13 @@ namespace YARG.Gameplay
             }
 
             _backgroundStem = _stemStates.Count > 1 ? SongStem.Song : _stemStates.First().Key;
+
+            if (SongKeySemitones != 0 &&
+                (_mixer is not BassStemMixer bassMixer || !bassMixer.SetSongKey(SongKeySemitones)))
+            {
+                // Never transpose the vocal targets if the audio cannot follow them.
+                SongKeySemitones = 0;
+            }
         }
 
         public void ChangeStarPowerStatus(bool active)

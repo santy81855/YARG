@@ -155,6 +155,8 @@ namespace YARG.Menu.MusicLibrary
                 return;
             }
 
+            if (YARG.Online.OnlineSession.Current?.SelectSong(SongEntry) == true) return;
+
             // Reset library's main index so we don't return to the index set by play a show
             MusicLibraryMenu.ResetMainLibraryIndex();
             MusicLibraryMenu.SetReload(MusicLibraryReloadState.Partial);

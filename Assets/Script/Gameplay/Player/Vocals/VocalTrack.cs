@@ -507,7 +507,8 @@ namespace YARG.Gameplay.Player
             const int DEFAULT_GUIDELINE_SCALE = 24;     // The semi-tone range of the guideline texture
 
             var scale = (_viewRange.Max - _viewRange.Min) / DEFAULT_GUIDELINE_SCALE;
-            var offset = (_viewRange.Min % DEFAULT_GUIDELINE_SCALE) / DEFAULT_GUIDELINE_SCALE;
+            var offset = ((_viewRange.Min + GameManager.SongKeySemitones) % DEFAULT_GUIDELINE_SCALE) /
+                DEFAULT_GUIDELINE_SCALE;
             _guidelineMaterial.mainTextureOffset = new Vector2(1, offset);
             _guidelineMaterial.mainTextureScale = new Vector2(1, scale);
         }
@@ -544,9 +545,27 @@ namespace YARG.Gameplay.Player
 
         public float GetPosForPitch(float pitch)
         {
-            float rangePercent = Mathf.InverseLerp(_viewRange.Min, _viewRange.Max, pitch);
+            float rangePercent = Mathf.InverseLerp(_viewRange.Min + GameManager.SongKeySemitones,
+                _viewRange.Max + GameManager.SongKeySemitones, pitch);
             var trackPosition = Mathf.Lerp(TRACK_BOTTOM, _currentTrackTop, rangePercent);
             return Mathf.Clamp(trackPosition, TRACK_BOTTOM, _currentTrackTop);
+        }
+
+        public void RefreshSongKey()
+        {
+            if (!gameObject.activeSelf) return;
+
+            UpdateHighwayGuidelines();
+            foreach (var pool in _notePools)
+            {
+                foreach (var pooled in pool.AllSpawned)
+                {
+                    if (pooled is VocalNoteElement note)
+                    {
+                        note.UpdateLinePoints();
+                    }
+                }
+            }
         }
 
         public void ResetPracticeSection()

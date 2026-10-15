@@ -494,6 +494,7 @@ MonoBehaviour:
   _songTitleText: {fileID: 7778603426334286436}
   _artistText: {fileID: 4129190891411151634}
   _sourceIcon: {fileID: 4587722383312202436}
+  _songKeyButtonPrefab: {fileID: 7831812744852097216, guid: f6ac2a9c2f684f84792c7d7cd00ba18c, type: 3}
   _difficultyItemPrefab: {fileID: 7078011472145303745, guid: 4442d264050ba2d48a3625616ee2f9d4,
     type: 3}
   _difficultyGreenPrefab: {fileID: 3092605043918072569, guid: aaad0bd4bf6af2c4a958ed68b782cf2a,

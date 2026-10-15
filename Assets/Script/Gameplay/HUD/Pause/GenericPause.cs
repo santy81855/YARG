@@ -44,6 +44,11 @@ namespace YARG.Gameplay.HUD
 
         public void TogglePractice()
         {
+            if (YARG.Online.OnlineSession.Current?.RoundActive == true)
+            {
+                DialogManager.Instance.ShowMessage("Online co-op", "Leave the online room to use practice mode.");
+                return;
+            }
             GlobalVariables.State.IsPractice = !GlobalVariables.State.IsPractice;
             GlobalVariables.State.SavedInputTime = GameManager.InputTime;
             PauseMenuManager.Restart();
@@ -51,6 +56,11 @@ namespace YARG.Gameplay.HUD
 
         public void SaveReplay()
         {
+            if (YARG.Online.OnlineSession.Current?.RoundActive == true)
+            {
+                DialogManager.Instance.ShowMessage("Online co-op", "Online results are shown together at the end. Saving online replays is not supported yet.");
+                return;
+            }
             bool succeeded = false;
             try
             {

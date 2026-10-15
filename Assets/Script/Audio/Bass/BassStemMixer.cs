@@ -46,6 +46,8 @@ namespace YARG.Audio.BASS
         private          bool           _didSetPosition;
         private          int            _songEndHandle;
         private          float          _speed = 1.0f;
+        private          bool           _shiftPitch = true;
+        private          int            _songKeySemitones;
         private          Timer          _whammySyncTimer;
         private readonly List<StemData> _stemDatas = new();
         private          int            _longestHandle;
@@ -323,13 +325,44 @@ namespace YARG.Audio.BASS
         protected override void SetSpeed_Internal(float speed, bool shiftPitch)
         {
             speed = (float) Math.Clamp(speed, 0.05, 50);
-            if (_speed == speed)
+            if (_speed == speed && _shiftPitch == shiftPitch)
             {
                 return;
             }
             _speed = speed;
+            _shiftPitch = shiftPitch;
 
             BassAudioManager.SetSpeed(speed, _tempoStreamHandle, shiftPitch);
+            ApplySongKey(_songKeySemitones);
+        }
+
+        /// <summary>Shifts the whole mix without changing tempo or affecting microphone monitoring.</summary>
+        public bool SetSongKey(int semitones)
+        {
+            lock (this)
+            {
+                semitones = SongKey.Clamp(semitones);
+                if (!ApplySongKey(semitones))
+                {
+                    return false;
+                }
+
+                _songKeySemitones = semitones;
+                return true;
+            }
+        }
+
+        private bool ApplySongKey(int semitones)
+        {
+            double pitch = SongKey.AudioPitch(semitones, _speed,
+                _shiftPitch && GlobalAudioHandler.IsChipmunkSpeedup);
+            if (Bass.ChannelSetAttribute(_tempoStreamHandle, ChannelAttribute.Pitch, pitch))
+            {
+                return true;
+            }
+
+            YargLogger.LogFormatError("Failed to set song key: {0}!", Bass.LastError);
+            return false;
         }
 
         protected override bool AddChannels_Internal(Stream stream, params StemInfo[] stemInfos)

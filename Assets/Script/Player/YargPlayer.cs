@@ -39,6 +39,8 @@ namespace YARG.Player
         public bool IsScoreValid { get; set; } = true;
 
         public bool IsReplay { get; private set; }
+        public bool IsRemote { get; private set; }
+        public bool RemoteVoiceStarPower { get; private set; }
         public int ReplayIndex = -1;
 
         /// <summary>
@@ -47,14 +49,26 @@ namespace YARG.Player
         /// </summary>
         public BaseEngineParameters EngineParameterOverride { get; set; }
 
-        public bool IsMissingMicrophone => !IsReplay && Profile.GameMode == GameMode.Vocals && Bindings.Microphone == null && !Profile.IsBot;
-        public bool IsMissingInputDevice => !IsReplay && Profile.GameMode != GameMode.Vocals && !Bindings.HasDeviceAssigned && !Profile.IsBot;
+        public bool IsMissingMicrophone => !IsReplay && !IsRemote && Profile.GameMode == GameMode.Vocals && Bindings.Microphone == null && !Profile.IsBot;
+        public bool IsMissingInputDevice => !IsReplay && !IsRemote && Profile.GameMode != GameMode.Vocals && !Bindings.HasDeviceAssigned && !Profile.IsBot;
 
         public YargPlayer(YargProfile profile, ProfileBindings bindings)
         {
             Profile = profile;
             Bindings = bindings;
             IsReplay = false;
+        }
+
+        public YargPlayer(YargProfile profile, EnginePreset engine, RockMeterPreset rockMeter, bool voiceStarPower)
+        {
+            Profile = Newtonsoft.Json.JsonConvert.DeserializeObject<YargProfile>(
+                Newtonsoft.Json.JsonConvert.SerializeObject(profile));
+            Profile.Id = Guid.NewGuid();
+            IsRemote = true;
+            RemoteVoiceStarPower = voiceStarPower;
+            RefreshPresets();
+            EnginePreset = engine;
+            RockMeterPreset = rockMeter;
         }
 
         public YargPlayer(ReplayFrame frame, ReplayData replay)

@@ -189,7 +189,9 @@ namespace YARG.Gameplay
             BackgroundManager = GetComponent<BackgroundManager>();
             EngineManager = new EngineManager();
 
-            YargPlayers = PlayerContainer.Players;
+            IsOnline = YARG.Online.OnlineSession.Current?.RoundActive == true;
+            YargPlayers = YARG.Online.OnlineSession.Current is { RoundActive: true } session
+                ? session.RoundPlayers : PlayerContainer.Players;
 
             Song = GlobalVariables.State.CurrentSong;
             ReplayInfo = GlobalVariables.State.CurrentReplay;
@@ -370,6 +372,7 @@ namespace YARG.Gameplay
 
         public void Pause(bool showMenu = true)
         {
+            if (YARG.Online.OnlineSession.Current?.RequestPause(true) == true) return;
             _songRunner.Pause();
             PauseCore(showMenu);
         }
@@ -436,6 +439,7 @@ namespace YARG.Gameplay
 
         public async void Resume(double? rewindDuration = null)
         {
+            if (YARG.Online.OnlineSession.Current?.RequestPause(false) == true) return;
             // We don't rewind in practice mode or in replay, so we can skip all the BS
             if (IsPractice || IsReplay)
             {
@@ -600,6 +604,8 @@ namespace YARG.Gameplay
                 Pause(false);
                 return true;
             }
+            if (YARG.Online.OnlineSession.Current is { RoundActive: true } online && !online.FinishSong())
+                return false;
 #nullable enable
             ReplayInfo? replayInfo = null;
 #nullable disable
@@ -618,16 +624,17 @@ namespace YARG.Gameplay
             {
                 PlayerScores = _players.Select(player => new PlayerScoreCard
                 {
-                    IsHighScore = player.Score > player.LastHighScore,
+                    IsHighScore = YARG.Online.OnlineSession.Current?.RoundActive != true && player.Score > player.LastHighScore,
                     Player = player.Player,
                     Stats = player.BaseStats,
-                    AverageMultiplier = player.BaseEngine.BaseNoteScore == 0 ?
+                    AverageMultiplier = YARG.Online.OnlineSession.Current is { RoundActive: true } room ?
+                        room.FinalAverageMultiplier(player) : player.BaseEngine.BaseNoteScore == 0 ?
                         0 :
                         // PendingScore should be 0 at this point, so no reason to add it
                         (float) player.BaseStats.CommittedScore / player.BaseEngine.BaseNoteScore,
                 }).ToArray(),
                 BandScore = BandScore,
-                BandStars = (int) BandStars,
+                BandStars = YARG.Online.OnlineSession.Current?.RoundActive == true ? FinalOnlineStars() : (int) BandStars,
                 ReplayInfo = replayInfo,
             };
 
@@ -640,6 +647,7 @@ namespace YARG.Gameplay
 
         private void RecordScores(ReplayInfo replayInfo)
         {
+            if (IsOnline) return;
             if (!ScoreContainer.IsBandScoreValid(SongSpeed))
             {
                 return;
@@ -755,6 +763,11 @@ namespace YARG.Gameplay
 
         public void ForceQuitSong()
         {
+            if (YARG.Online.OnlineSession.Current is { RoundActive: true } online)
+            {
+                online.ReturnToRoom();
+                return;
+            }
             GlobalVariables.State = PersistentState.Default;
             GlobalVariables.Instance.LoadScene(SceneIndex.Menu);
         }
@@ -789,6 +802,7 @@ namespace YARG.Gameplay
         public ReplayInfo? SaveReplay(double length, string directory)
 #nullable disable
         {
+            if (IsOnline) return null;
             if (_isReplaySaved)
             {
                 return null;
@@ -891,6 +905,7 @@ namespace YARG.Gameplay
 
         private async void OnSongFailed()
         {
+            if (IsOnline) return;
             if (SettingsManager.Settings.NoFail.Value != NoFailMode.Off || IsPractice)
             {
                 return;

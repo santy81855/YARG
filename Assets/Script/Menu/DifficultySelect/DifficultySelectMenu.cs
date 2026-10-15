@@ -22,7 +22,7 @@ using YARG.Song;
 
 namespace YARG.Menu.DifficultySelect
 {
-    public class DifficultySelectMenu : MonoBehaviour
+    public partial class DifficultySelectMenu : MonoBehaviour
     {
         /// <summary>
         /// The saved song speed value
@@ -111,10 +111,21 @@ namespace YARG.Menu.DifficultySelect
                 NavigationScheme.Entry.NavigateSelect,
                 new NavigationScheme.Entry(MenuAction.Red, "Menu.Common.Back", () =>
                 {
+                    if (_playerIndex >= PlayerContainer.Players.Count &&
+                        YARG.Online.OnlineSession.Current is { IsConnected: true } waitingRoom)
+                    {
+                        waitingRoom.ReturnToRoom();
+                        return;
+                    }
                     if (_menuState == State.Main)
                     {
                         if (_playerIndex == 0)
                         {
+                            if (YARG.Online.OnlineSession.Current is { IsConnected: true } online)
+                            {
+                                online.ReturnToRoom();
+                                return;
+                            }
                             MenuManager.Instance.PopMenu();
                         }
                         else
@@ -130,6 +141,9 @@ namespace YARG.Menu.DifficultySelect
                 })
             }, false));
 
+            if (YARG.Online.OnlineSession.Current is { IsConnected: true, IsHost: false } room)
+                _songSpeed = room.SelectedSpeed;
+            _speedInput.interactable = YARG.Online.OnlineSession.Current is not { IsConnected: true, IsHost: false };
             _speedInput.text = $"{Mathf.RoundToInt(_songSpeed * 100f)}%";
             _songTitleText.text = GlobalVariables.State.CurrentSong.Name;
             _artistText.text = GlobalVariables.State.CurrentSong.Artist;
@@ -188,6 +202,7 @@ namespace YARG.Menu.DifficultySelect
 
         private void UpdateForPlayer()
         {
+            _container.gameObject.SetActive(true);
             // Set player text
             var profile = CurrentPlayer.Profile;
             _text.text = $"<sprite name=\"{profile.GameMode.ToResourceName()}\"> {profile.Name}";
@@ -253,6 +268,7 @@ namespace YARG.Menu.DifficultySelect
                     ChangePlayer(1);
                 });
 
+                CreateSongKeyItem();
                 CreateItem(LocalizeHeader("Instrument"),
                     player.Profile.CurrentInstrument.ToLocalizedName(),
                     _lastMenuState == State.Instrument, () =>
@@ -283,8 +299,8 @@ namespace YARG.Menu.DifficultySelect
 
                 // Only allow vocal modifiers to be selected once (so they don't conflict)
                 if (player.Profile.GameMode != GameMode.Vocals ||
-                    _vocalModifierSelectIndex == -1 ||
-                    _vocalModifierSelectIndex == _playerIndex)
+                    YARG.Online.OnlineSession.Current?.HostVocalProfile == null &&
+                    (_vocalModifierSelectIndex == -1 || _vocalModifierSelectIndex == _playerIndex))
                 {
                     // Create modifiers body text
                     string modifierText = "";
@@ -517,6 +533,7 @@ namespace YARG.Menu.DifficultySelect
             // When the user(s) have selected all of their difficulties, move on
             if (_playerIndex >= PlayerContainer.Players.Count)
             {
+                _container.gameObject.SetActive(false);
                 // If everyone is sitting out, show a warning and boot back to music library
                 if (PlayerContainer.Players.All(i => i.SittingOut))
                 {
@@ -554,7 +571,10 @@ namespace YARG.Menu.DifficultySelect
                 _songSpeed = speed;
                 GlobalVariables.State.SongSpeed = speed;
 
-                GlobalVariables.Instance.LoadScene(SceneIndex.Gameplay);
+                if (YARG.Online.OnlineSession.Current is { IsConnected: true } online)
+                    online.Ready(speed);
+                else
+                    GlobalVariables.Instance.LoadScene(SceneIndex.Gameplay);
                 return;
             }
 
@@ -612,6 +632,9 @@ namespace YARG.Menu.DifficultySelect
                 profile.HarmonyIndex = 0;
             }
 
+            if (profile.GameMode == GameMode.Vocals &&
+                YARG.Online.OnlineSession.Current?.HostVocalProfile is { } hostVocal)
+                profile.CopyModifiers(hostVocal);
             UpdatePossibleModifiers();
 
             // Don't sit out by default
@@ -673,6 +696,7 @@ namespace YARG.Menu.DifficultySelect
 
         private void OnDisable()
         {
+            _navGroup.SelectionChanged -= UpdateForSelectionChanged;
             Navigator.Instance.PopScheme();
         }
 
@@ -726,6 +750,9 @@ namespace YARG.Menu.DifficultySelect
                 {
                     return false;
                 }
+
+                var hostVocal = YARG.Online.OnlineSession.Current?.HostVocalProfile;
+                if (hostVocal != null && hostVocal.CurrentInstrument != instrument) return false;
 
                 // Loop through all of the players up to the current one
                 // to see what has already been selected.

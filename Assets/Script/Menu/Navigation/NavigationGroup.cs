@@ -16,6 +16,7 @@ namespace YARG.Menu.Navigation
             : _navGroupsStack[^1];
 
         private readonly List<NavigatableBehaviour> _navigatables = new();
+        private bool _hasAwoken;
 
         [SerializeField]
         private bool _defaultGroup;
@@ -48,6 +49,7 @@ namespace YARG.Menu.Navigation
 
         private void Awake()
         {
+            _hasAwoken = true;
             if (_addAllChildrenOnAwake)
             {
                 foreach (var navigatable in GetComponentsInChildren<NavigatableBehaviour>())
@@ -108,6 +110,25 @@ namespace YARG.Menu.Navigation
                 return;
 
             AddNavigatable(navigatable);
+        }
+
+        public void InsertNavigatable(int index, NavigatableBehaviour navigatable)
+        {
+            // Inactive pause menus collect their children when first opened. Their
+            // newly inserted controls will already be in the correct sibling order.
+            if (!_hasAwoken && _addAllChildrenOnAwake) return;
+
+            if (index < 0 || index > _navigatables.Count)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            _AddNavigatable(navigatable);
+            _navigatables.RemoveAt(_navigatables.Count - 1);
+            _navigatables.Insert(index, navigatable);
+
+            if (SelectedIndex is {} selected && selected >= index)
+            {
+                SelectedIndex = selected + 1;
+            }
         }
 
         public void RemoveNavigatable(NavigatableBehaviour navigatable)
